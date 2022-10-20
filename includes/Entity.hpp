@@ -8,6 +8,13 @@ enum ENTITY_TYPE {
 	TANK,
 };
 
+enum ENTITY_SATUS {
+	PARALYSE,
+	BURN,
+	POISON,
+	NONE,
+};
+
 class Entity {
 public:
 Entity(int pv, int atk, int def, ENTITY_TYPE type): _pv(pv), _atk(atk), _def(def), _type(type) {};
@@ -23,6 +30,7 @@ protected:
 int _pv;
 int _atk;
 int _def;
+ENTITY_STATUS _status;
 ENTITY_TYPE _type;
 };
 

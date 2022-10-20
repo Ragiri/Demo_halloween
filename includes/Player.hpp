@@ -1,8 +1,9 @@
-#define ENNEMY_HPP
-#ifndef ENNEMY_HPP
+// #define PLAYER_HPP
+// #ifndef PLAYER_HPP
 
 #define EXPTOLVLUP 50 
 #include "Entity.hpp"
+#include "Sprite.hpp"
 
 class Player: public Entity {
 public:
@@ -28,6 +29,7 @@ private:
 	int64_t _exp;
 	int _lvl;
 	std::pair<int, int> _pos;
+	std::vector<sf::Text> _text;
 };
 
-#endif
+// #endif

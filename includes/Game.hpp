@@ -1,26 +1,29 @@
-#define GAME_HPP
-#ifndef GAME_HPP
+//#define GAME_HPP
+//#ifndef GAME_HPP
 
 #include <iostream>
 #include <map>
 #include <vector>
 #include <filesystem>
 #include <uttility>
+#include <string.h>
 #include "Ennemy.hpp"
+#include "Object.hpp"
 
 class Game {
     public:
     Game(std::string layerDir) {
 	for (auto &layer: std::filesystem::recursive_directory_iterator(layerDir)) {
-		std::ifstream ifs;
-  		ifs.open (layer, std::ifstream::in);
-  		//char c = ifs.get();
-  		//while (ifs.good()) {
-    		//	std::cout << c;
-    		//	c = ifs.get();
-  		//}
-  		ifs.close();
-	}
+		std::ifstream ifs(layer);
+		if (ifs.is_open()) {
+			std::string line;
+    		while (std::getline(file, line)) {
+				char *line_point = strtok(line.c_str(), )
+			}
+    			file.close();
+			}
+  			ifs.close();
+		}
     };
     ~Game() = default;
     void createMap() {
@@ -31,4 +34,4 @@ class Game {
     std::map<int, Ennemy> _ennemy;
 };
 
-#endif
+//#endif
