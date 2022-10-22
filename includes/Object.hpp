@@ -1,5 +1,5 @@
-//#define _SPRITE_HPP
-//#ifndef _SPRITE_HPP
+#ifndef _OBJECT_HPP_
+#define _OBJECT_HPP_
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -24,11 +24,19 @@ public:
 	void setPos(sf::Vector2f pos) { _Sprite.setPosition(pos); };
 	sf::Vector2f getPos() { return _Sprite.getPosition(); };
 	void setDisplay(bool disp) { _display = disp; };
+	sf::IntRect rect_transform(int left, int width) {
+		sf::IntRect r = _Sprite.getTextureRect();
+		r.left = left;
+		r.width = width;
+		_Sprite.setTextureRect(r);
+	};
+	sf::IntRect getTextureRect() { return _Sprite.getTextureRect(); };
 	sf::FloatRect getRect() { return _Sprite.getGlobalBounds(); };
+	sf::Sprite *getSprite() { return &_Sprite;};
 private:
 	sf::Sprite _Sprite;
 	sf::Texture _Texture;
 	bool _display;
 };
 
-//#endif
+#endif

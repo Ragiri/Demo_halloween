@@ -1,13 +1,14 @@
-NAME	=	libnet.so
+NAME	=	fight
 CFLAGS  =       -W  -Wextra -Wall
+SRC	=	src/main.cpp
 OBJ	=	$(SRC:.cpp=.o)
-FLAGS 	=	lsfml-graphics -lsfml-window -lsfml-system
-INCLUDES	+=	-I./include/
+FLAGS 	=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+INCLUDES =	-I./includes/
 
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
-	g++ -o $(NAME) $(OBJ) $(INCLUDES) $(TESTFLAGS)
+	g++ -o $(NAME) $(OBJ) $(INCLUDES) $(FLAGS) $(CFLAGS)
 
 clean:
 	rm -f $(OBJ)

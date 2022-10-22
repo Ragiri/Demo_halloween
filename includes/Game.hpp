@@ -1,11 +1,11 @@
-//#define GAME_HPP
-//#ifndef GAME_HPP
+#ifndef GAME_HPP
+#define GAME_HPP
 
 #include <iostream>
 #include <map>
 #include <vector>
 #include <filesystem>
-#include <uttility>
+#include <utility>
 #include <string.h>
 #include "Ennemy.hpp"
 #include "Object.hpp"
@@ -34,4 +34,4 @@ class Game {
     std::map<int, Ennemy> _ennemy;
 };
 
-//#endif
+#endif
