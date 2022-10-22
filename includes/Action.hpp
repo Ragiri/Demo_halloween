@@ -37,7 +37,7 @@ class Action {
 		std::cout << i << std::endl;
 		if (i % 2 == 0 || i % 3 == 0  || i % 5 == 0) {
 			e->takeDamage((p->getATK() * p->getLvl()) + (p->getBoostATK() * p->getLvl()) + 2);
-			if ((i / 2) % 5 == 0 && e->getStatus() == NONE)
+			if ((i / 2) % 5 == 0 && e->getStatus() == NAN)
 				e->setStatus(BURN);
 			return 0;
 		};
@@ -46,7 +46,7 @@ class Action {
 	static int poison(Entity *p, Entity *e) {
 		int i = rand() % 155;
 		std::cout << i << std::endl;
-		if (i % 2 == 0 || i % 3 == 0  || i % 5 == 0) {
+		if ((i % 2 == 0 || i % 3 == 0  || i % 5 == 0) && e->getStatus() == NAN) {
 			e->setStatus(POISON);
 			return 0;
 		};

@@ -1,6 +1,8 @@
-NAME	=	fight
+NAME	=	booo
 CFLAGS  =       -W  -Wextra -Wall
-SRC	=	src/main.cpp
+SRC	=	src/main.cpp \
+		src/game.cpp \
+		src/sprite.cpp
 OBJ	=	$(SRC:.cpp=.o)
 FLAGS 	=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 INCLUDES =	-I./includes/

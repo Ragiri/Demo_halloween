@@ -22,13 +22,13 @@ enum ENTITY_STATUS {
 	PARALYSE,
 	BURN,
 	POISON,
-	NONE,
+	NAN,
 };
 
 class Entity {
 public:
 Entity(int pv, int atk, int def, ENTITY_TYPE type, std::string name): _pv(pv), _atk(atk), _def(def), _type(type), _name(name) {
-	_status = NONE;
+	_status = NAN;
 	_lvl = 1;
 	_boostAtk = 0;
 	_boostDef = 0;
@@ -52,7 +52,7 @@ void takeDamage(int damage) {
 	else _pv -= 1;
 };
 void takeDamageStatus() {
-	if (_status != NONE)
+	if (_status != NAN)
 		_pv -= 3 * _lvl;
 };
 void setStatus(ENTITY_STATUS stat) {_status = stat;};
