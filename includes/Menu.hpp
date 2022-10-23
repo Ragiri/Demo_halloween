@@ -46,15 +46,17 @@ public:
 		this->displayShapes(window);
 		_arrow.displayText(window);
 	};
-	SCENE menuEvents(sf::Event event) {
+	SCENE menuEvents(sf::Event event, sf::Sound *sound) {
 		if (event.type == sf::Event::KeyPressed) {
 		    if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down) {
 			    _selected_scene = _selected_scene == 0 ? 1 : 0;
 				_selected_scene == 0 ? 
 				_arrow.setPosition({850, 300})
 				: _arrow.setPosition({850, 700});
+				sound->play();
 			}
 			if (event.key.code == sf::Keyboard::Enter) {
+				sound->play();
 				if (_selected_scene == 0)
 					return MAP;
 				else

@@ -184,11 +184,11 @@ EVENT Game::event(void) {
 		if (_scene == EXIT)
 			return EVENT::QUIT;
 		if (_scene == MENU)
-			_scene = _menu.menuEvents(_event);
+			_scene = _menu.menuEvents(_event, &_sound);
 		if (_scene == MAP)
 			this->moveEvent(_event);
 		if (_scene == FIGHT) {
-			FIGHT_STATUS f = _fight.fight(_event,  _window.get()->getWindow());
+			FIGHT_STATUS f = _fight.fight(_event,  _window.get()->getWindow(), &_sound);
 			if (f == WIN) {
 				_fight.reward();
 				_scene = MAP;

@@ -54,6 +54,9 @@ public:
 		_scene = MENU;
 		_players = init_fight_player;
 		_view.reset(sf::FloatRect(650, 350, 400, 250));
+		if (!buffer.loadFromFile("assets/click.ogg"))
+			std::cerr << "Could not load sound" << std::endl;
+		_sound.setBuffer(buffer);
 		srand(time(NULL));
     };
     ~Game() = default;
@@ -81,6 +84,8 @@ private:
 	Fight _fight;
 	sf::View _view;
     sf::Event _event{};
+	sf::SoundBuffer buffer;
+	sf::Sound _sound;
     std::unique_ptr<Window> _window;
 	std::vector<Player*> _players;
 	SCENE _scene;

@@ -61,11 +61,12 @@ class Fight {
 			} for(auto &e: _ennemy)
 				e->resetBoost();
 		};
-		FIGHT_STATUS fight(sf::Event event, sf::RenderWindow *window) {
+		FIGHT_STATUS fight(sf::Event event, sf::RenderWindow *window, sf::Sound *sound) {
 			if (_player.at(_id_player_turn)->getPV() < 0);
 				_id_player_turn == _player.size() - 1 ? 0 : _id_player_turn + 1;
 			if (event.type == sf::Event::KeyPressed) {
 			    if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right) {
+					sound->play();
 					if (_turn == 1) {
 			        	_selected_action = _selected_action == 0 ? 1 : 0;
 						_selected_action == 0 ? 
@@ -83,6 +84,7 @@ class Fight {
 					}
 			    }
 			    if (event.key.code == sf::Keyboard::Enter) {
+					sound->play();
 					_turn++;
 					if (_turn == 2) {
 						_type = _player.at(_id_player_turn)->checkACtionType(_selected_action);
