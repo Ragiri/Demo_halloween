@@ -40,13 +40,15 @@ class Fight {
 		}
 		int ennemyTurn() {
 			for (auto &e: _ennemy) {
-				int i = rand() % 50;
-				int p = rand() % 50;
-				int id = i % 2 == 0 ? 0 : 1;
-				int pid = p % 2 == 0 ? 0 : 1;
-				ACTION_TYPE t = e->checkACtionType(id);
-				t == ONENNEMYS ?  e->Attack(id, _player.at(pid))
-				:  e->Attack(id, _ennemy.at(pid));
+				if (e->getPV() > 0) {
+					int i = rand() % 50;
+					int p = rand() % 50;
+					int id = i % 2 == 0 ? 0 : 1;
+					int pid = p % 2 == 0 ? 0 : 1;
+					ACTION_TYPE t = e->checkACtionType(id);
+					t == ONENNEMYS ?  e->Attack(id, _player.at(pid))
+					:  e->Attack(id, _ennemy.at(pid));
+				}
 			}
 		};
 		void setEnnemys(std::vector<Ennemy*> ennemy) {
@@ -60,6 +62,8 @@ class Fight {
 				e->resetBoost();
 		};
 		FIGHT_STATUS fight(sf::Event event, sf::RenderWindow *window) {
+			if (_player.at(_id_player_turn)->getPV() < 0);
+				_id_player_turn == _player.size() - 1 ? 0 : _id_player_turn + 1;
 			if (event.type == sf::Event::KeyPressed) {
 			    if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right) {
 					if (_turn == 1) {

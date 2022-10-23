@@ -75,7 +75,7 @@ void Game::gameCollider() {
 		if (tmp) {
 			if (std::find(std::begin(id_collide_fight), std::end(id_collide_fight), obj.idSprite) != std::end(id_collide_fight)) {
 				std::cout << "collide, i: " << i << std::endl;
-				if (i % 2 != 0 && i % 3 != 0 && i % 5 != 0 && i % 7 != 0 && i % 6 != 0) {
+				if (i % 2 != 0 && i % 3 != 0 && i % 5 != 0 && i % 7 != 0 ) {
 					this->createFight();
 				}
 			}
@@ -87,18 +87,30 @@ void Game::moveEvent(sf::Event event) {
 	if (event.type == sf::Event::KeyPressed) {
 		if (event.key.code == sf::Keyboard::Left && checkCollider({_players.at(1)->getPosition().x - 2, _players.at(1)->getPosition().y})) {
 			_players.at(1)->setPosition({_players.at(1)->getPosition().x - 2, _players.at(1)->getPosition().y});
+			_players.at(1)->getSprite()->getTextureRect().left < 32 ? 
+			_players.at(1)->getSprite()->setTextureRect({_players.at(1)->getSprite()->getTextureRect().left + 16, 16, 16, 16})
+			: _players.at(1)->getSprite()->setTextureRect({0, 16, 16, 16});
 			_view.setCenter(_players.at(1)->getPosition());
 			gameCollider();
 		} if (event.key.code == sf::Keyboard::Right && checkCollider({_players.at(1)->getPosition().x + 2, _players.at(1)->getPosition().y})) {
 			_players.at(1)->setPosition({_players.at(1)->getPosition().x + 2, _players.at(1)->getPosition().y});
+			_players.at(1)->getSprite()->getTextureRect().left < 32 ? 
+			_players.at(1)->getSprite()->setTextureRect({_players.at(1)->getSprite()->getTextureRect().left + 16, 32, 16, 16})
+			: _players.at(1)->getSprite()->setTextureRect({0, 32, 16, 16});
 			_view.setCenter(_players.at(1)->getPosition());
 			gameCollider();
 		} if (event.key.code == sf::Keyboard::Up && checkCollider({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y - 2})) {
 			_players.at(1)->setPosition({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y - 2});
+			_players.at(1)->getSprite()->getTextureRect().left < 32 ? 
+			_players.at(1)->getSprite()->setTextureRect({_players.at(1)->getSprite()->getTextureRect().left + 16, 48, 16, 16})
+			: _players.at(1)->getSprite()->setTextureRect({0, 48, 16, 16});
 			_view.setCenter(_players.at(1)->getPosition());
 			gameCollider();
 		} if (event.key.code == sf::Keyboard::Down && checkCollider({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y + 2})) {
 			_players.at(1)->setPosition({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y + 2});
+			_players.at(1)->getSprite()->getTextureRect().left < 32 ? 
+			_players.at(1)->getSprite()->setTextureRect({_players.at(1)->getSprite()->getTextureRect().left + 16, 0, 16, 16})
+			: _players.at(1)->getSprite()->setTextureRect({0, 0, 16, 16});
 			_view.setCenter(_players.at(1)->getPosition());
 			gameCollider();
 		}

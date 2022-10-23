@@ -14,13 +14,14 @@ class Action {
 	static int heal(Entity *p, Entity *e) {
 		int i = rand() % 155;
 		std::cout << i << std::endl;
-		if (e->getPV() > 0 && e->getPV() != e->getInitialPV()) {
+		if (e->getPV() > 0 && e->getPV() < e->getInitialPV()) {
 			e->setPV(e->getPV() + (3 * p->getLvl()));
 			return 0;
 		};
 		if ((e->getPV() + (3 * p->getLvl())) > e->getInitialPV()) {
 			e->setPV(e->getInitialPV());
 		}
+		e->setStatus(NAN);
 		return -1;
 	};
 	static int light(Entity *p, Entity *e) {

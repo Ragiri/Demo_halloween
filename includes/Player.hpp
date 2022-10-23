@@ -55,6 +55,9 @@ ACTION_TYPE checkACtionType(int id) {
 void displayPlayer(sf::RenderWindow *Window) { 
 	_obj.display(Window);
 };
+sf::Sprite *getSprite() {
+	return _obj.getSprite();
+};
 void displayPlayerBox(sf::RenderWindow *Window, sf::Vector2f pos) {
 	sf::RectangleShape rectangle(sf::Vector2f(250, 250));
 	Text name, pv, lvl, status;
