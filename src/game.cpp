@@ -7,9 +7,11 @@ static obj_t create_obj(int id, sf::Vector2f cord) {
 
 void Game::draw(void) {
     _window.get()->getWindow()->clear(sf::Color::Black);
+	_window.get()->getWindow()->setView(_window.get()->getWindow()->getDefaultView());
 	if (_scene == MENU)
 		_menu.displayMenu(_window.get()->getWindow());
 	if (_scene == MAP) {
+		_window.get()->getWindow()->setView(_view);
     	for (auto &obj : o_container) {
     	    s_container.at(obj.idSprite).setPosition(obj.pos);
     	    _window.get()->getWindow()->draw(s_container.at(obj.idSprite).getSprite());
@@ -34,7 +36,6 @@ bool Game::checkCollider(sf::Vector2f vect) {
 	for (auto &obj : o_container) {
     	bool tmp = fr.contains(obj.pos);
 		if (tmp) {
-			std::cout << tmp << " at id: " << obj.idSprite << std::endl;
 			if (std::find(std::begin(id_collide), std::end(id_collide), obj.idSprite) != std::end(id_collide)) {
 				ret = true;
 			} else return ret = false;
@@ -43,16 +44,64 @@ bool Game::checkCollider(sf::Vector2f vect) {
 	return ret;
 }
 
+void Game::createFight() {
+	int sp = rand() % 4;
+	int ss = rand() % 4;
+	int lvl = rand() % _players.at(0)->getLvl();
+	int tp = rand() % 3;
+	int ts = rand() % 3;
+	std::vector<std::pair<std::string, std::string>> slime {
+		{"Pink Donut", "assets/neko_donut_rose.png"},
+		{"Green Donut", "assets/neko_donut_vert.png"},
+		{"Purple Slime", "assets/slimePurple.png"},
+		{"Yellow Slime", "assets/slimeYellow.png"},
+		{"Blue Slime", "assets/slimeBlue.png"},
+		{"Green Slime", "assets/slimeGreen.png"},
+	};
+	static std::vector<Ennemy*> ennemy = {
+		new Ennemy(lvl, slime.at(sp).first, ENTITY_TYPE(tp), slime.at(sp).second, {30, 30}),
+		new Ennemy(lvl + 1, slime.at(ss).first, ENTITY_TYPE(ts), slime.at(ss).second, {30, 30}),
+	};
+	_fight.setEnnemys(ennemy);
+	_scene = FIGHT;
+}
+
+void Game::gameCollider() {
+	sf::FloatRect fr = {_players.at(1)->getPosition().x, _players.at(1)->getPosition().y, 16, 16};
+	int i = rand() % 155;
+
+	for (auto &obj : o_container) {
+    	bool tmp =  fr.contains(obj.pos);
+		if (tmp) {
+			if (std::find(std::begin(id_collide_fight), std::end(id_collide_fight), obj.idSprite) != std::end(id_collide_fight)) {
+				std::cout << "collide, i: " << i << std::endl;
+				if (i % 2 != 0 && i % 3 != 0 && i % 5 != 0 && i % 7 != 0 && i % 6 != 0) {
+					this->createFight();
+				}
+			}
+		}
+	}
+}
+
 void Game::moveEvent(sf::Event event) {
 	if (event.type == sf::Event::KeyPressed) {
-		if (event.key.code == sf::Keyboard::Left && checkCollider({_players.at(1)->getPosition().x - 2, _players.at(1)->getPosition().y}))
+		if (event.key.code == sf::Keyboard::Left && checkCollider({_players.at(1)->getPosition().x - 2, _players.at(1)->getPosition().y})) {
 			_players.at(1)->setPosition({_players.at(1)->getPosition().x - 2, _players.at(1)->getPosition().y});
-		if (event.key.code == sf::Keyboard::Right && checkCollider({_players.at(1)->getPosition().x + 2, _players.at(1)->getPosition().y}))
+			_view.setCenter(_players.at(1)->getPosition());
+			gameCollider();
+		} if (event.key.code == sf::Keyboard::Right && checkCollider({_players.at(1)->getPosition().x + 2, _players.at(1)->getPosition().y})) {
 			_players.at(1)->setPosition({_players.at(1)->getPosition().x + 2, _players.at(1)->getPosition().y});
-		if (event.key.code == sf::Keyboard::Up && checkCollider({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y - 2}))
+			_view.setCenter(_players.at(1)->getPosition());
+			gameCollider();
+		} if (event.key.code == sf::Keyboard::Up && checkCollider({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y - 2})) {
 			_players.at(1)->setPosition({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y - 2});
-		if (event.key.code == sf::Keyboard::Down && checkCollider({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y + 2}))
+			_view.setCenter(_players.at(1)->getPosition());
+			gameCollider();
+		} if (event.key.code == sf::Keyboard::Down && checkCollider({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y + 2})) {
 			_players.at(1)->setPosition({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y + 2});
+			_view.setCenter(_players.at(1)->getPosition());
+			gameCollider();
+		}
 	}
 };
 
@@ -127,7 +176,12 @@ EVENT Game::event(void) {
 		if (_scene == MAP)
 			this->moveEvent(_event);
 		if (_scene == FIGHT) {
-			_fight.fight(_event,  _window.get()->getWindow());
+			FIGHT_STATUS f = _fight.fight(_event,  _window.get()->getWindow());
+			if (f == WIN) {
+				_fight.reward();
+				_scene = MAP;
+			} if (f == LOST)
+				return EVENT::QUIT;
 		}
     }
     return EVENT::NONE;

@@ -13,8 +13,8 @@ enum SCENE {
 
 class Menu {
 public:
-	Menu(std::string filename): _bg("assets/battle_bg.png", {0, 0}, {2000, 800}) {
-		_arrow.createText(">", {850, 350}, 50, sf::Color::Cyan);
+	Menu(std::string filename): _bg("assets/battle_bg.png", {0, 0}, {2000, 1200}) {
+		_arrow.createText(">", {850, 300}, 100, sf::Color::Cyan);
 		_selected_scene = 0;
 	};
 	~Menu() = default;
@@ -51,8 +51,8 @@ public:
 		    if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down) {
 			    _selected_scene = _selected_scene == 0 ? 1 : 0;
 				_selected_scene == 0 ? 
-				_arrow.setPosition({850, 350})
-				: _arrow.setPosition({850, 750});
+				_arrow.setPosition({850, 300})
+				: _arrow.setPosition({850, 700});
 			}
 			if (event.key.code == sf::Keyboard::Enter) {
 				if (_selected_scene == 0)

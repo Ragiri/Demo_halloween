@@ -49,6 +49,16 @@ class Fight {
 				:  e->Attack(id, _ennemy.at(pid));
 			}
 		};
+		void setEnnemys(std::vector<Ennemy*> ennemy) {
+			_ennemy = ennemy;
+		};
+		void reward() {
+			for(auto &p: _player) {
+				p->addExp((10 * _ennemy.at(0)->getLvl()));
+				p->resetBoost();
+			} for(auto &e: _ennemy)
+				e->resetBoost();
+		};
 		FIGHT_STATUS fight(sf::Event event, sf::RenderWindow *window) {
 			if (event.type == sf::Event::KeyPressed) {
 			    if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right) {

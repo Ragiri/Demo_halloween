@@ -11,10 +11,11 @@ typedef int (*IntFunctionWithTwoParameter) (Entity *p, Entity *e);
 
 class Ennemy: public Entity {
 public:
-Ennemy(int pv, int atk, int def, std::string name, ENTITY_TYPE type, std::string filename, std::pair<int, int> size): 
-	Entity(pv, atk, def, type, name), _obj(filename, std::make_pair(0, 0), size) {
+Ennemy(int l, std::string name, ENTITY_TYPE type, std::string filename, std::pair<int, int> size): 
+	Entity(35 + (3 * (l - 1)), 3 + (2 * (l - 1)), 3 + (2 * (l - 1)), type, name), _obj(filename, std::make_pair(0, 0), size) {
 	_action = list_action[type];
 	_action_name = list_action_names[type];
+	_lvl = l;
 };
 ~Ennemy() = default;
 void setPosition(sf::Vector2f pos) {
@@ -40,7 +41,7 @@ void displayEnnemy(sf::RenderWindow *Window) {
 	rectangle.setOutlineColor(sf::Color::Black);
 
 	info.createText( _name + "\nLvl: " + std::to_string(_lvl) + "\nLife: " + std::to_string(_pv), {rectangle.getPosition().x + 20, rectangle.getPosition().y + 10}, 20, sf::Color::Black);
-	status.createText( _status_letter.at(_status), {rectangle.getPosition().x + 120, rectangle.getPosition().y + 15}, 15, sf::Color::Black);
+	status.createText( _status_letter.at(_status), {rectangle.getPosition().x + 120, rectangle.getPosition().y + 40}, 15, sf::Color::Black);
 	_obj.display(Window);
 	Window->draw(rectangle);
 	info.displayText(Window);

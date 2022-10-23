@@ -36,6 +36,10 @@ int addExp(int64_t exp) {
 	if ((_exp += exp) >= _lvl * EXPTOLVLUP) {
 		_exp -= _lvl * EXPTOLVLUP;
 		_lvl +=1;
+		_initialPV += (2 * _lvl);
+		_atk += 2;
+		_def += 1;
+		_pv = _initialPV;
 		return 1;
 	} else
 		return -1;

@@ -22,7 +22,12 @@ static std::vector<int> id_collide = {
 	921, 632, 408, 405, 416, 807, 1031, 404, 689, 1254, 406,
 	462, 465, 1356, 465, 577, 578, 579, 520, 521, 522,
 	519, 634, 635, 636, 518, 575, 576, 636, 807, 1032, 404,
-	526, 458,459, 460, 1257
+	526, 458,459, 460, 1257, 587
+};
+
+static std::vector<int> id_collide_fight = {
+	862, 863, 864, 865, 866, 919, 920, 976, 977, 978, 
+	921
 };
 
 typedef struct obj_s {
@@ -30,12 +35,10 @@ typedef struct obj_s {
     sf::Vector2f pos; 
 } obj_t;
 
-
 static std::vector<Ennemy*> init_fight_ennemy = {
-	new Ennemy(35, 3, 5, "Blue", TANK, "assets/slimeBlue.png", {30, 30}),
-	new Ennemy(35, 5, 3, "Green", SWORDMAN, "assets/slimeGreen.png", {30, 30}),
+	new Ennemy(1, "Blue", TANK, "assets/slimeBlue.png", {30, 30}),
+	new Ennemy(1, "Green", SWORDMAN, "assets/slimeGreen.png", {30, 30}),
 };
-
 
 static std::vector<Player*> init_fight_player = {
 	new Player(35, 5, 3, "Witch", MAGE, "assets/witch.png"),
@@ -50,6 +53,8 @@ public:
         _totalId = 0;
 		_scene = MENU;
 		_players = init_fight_player;
+		_view.reset(sf::FloatRect(650, 350, 400, 250));
+		srand(time(NULL));
     };
     ~Game() = default;
 public:
@@ -74,6 +79,7 @@ private:
     std::vector<obj_t> o_container;
 	Menu _menu;
 	Fight _fight;
+	sf::View _view;
     sf::Event _event{};
     std::unique_ptr<Window> _window;
 	std::vector<Player*> _players;
