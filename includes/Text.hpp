@@ -14,7 +14,8 @@ public:
 	sf::Text createText(std::string str, sf::Vector2f vect, int size, sf::Color color) {
 		sf::Text text(str, _font, size);
 		text.setPosition(vect);
-		text.setColor(color);
+		text.setFillColor(color);
+		//text.setColor(color);
 		_text = text;
 		return text;
 	};

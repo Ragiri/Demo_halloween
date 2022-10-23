@@ -41,8 +41,8 @@ static std::vector<Ennemy*> init_fight_ennemy = {
 };
 
 static std::vector<Player*> init_fight_player = {
-	new Player(35, 5, 3, "Witch", MAGE, "assets/witch.png"),
-	new Player(35, 3, 3, "Healer", HEALER, "assets/witch.png"),
+	new Player(35, 6, 5, "Witch", MAGE, "assets/witch.png"),
+	new Player(35, 5, 5, "Healer", HEALER, "assets/witch.png"),
 };
 
 class Game {
@@ -73,6 +73,7 @@ public:
 	void createFight();
 	void gameCollider();
 	bool checkCollider(sf::Vector2f vect);
+	void move(int, float, float);
 	void moveEvent(sf::Event event);
 public:
     std::unordered_map<int, Sprite> &get_Cs(void) { return this->s_container;};

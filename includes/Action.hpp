@@ -15,11 +15,12 @@ class Action {
 		int i = rand() % 155;
 		std::cout << i << std::endl;
 		if (e->getPV() > 0 && e->getPV() < e->getInitialPV()) {
-			e->setPV(e->getPV() + (3 * p->getLvl()));
+			e->setPV(e->getPV() + (3 * p->getLvl() + 1));
 			return 0;
 		};
 		if ((e->getPV() + (3 * p->getLvl())) > e->getInitialPV()) {
 			e->setPV(e->getInitialPV());
+			return 0;
 		}
 		e->setStatus(NAN);
 		return -1;
@@ -28,7 +29,7 @@ class Action {
 		int i = rand() % 155;
 		std::cout << i << std::endl;
 		if (i % 2 == 0 || i % 3 == 0  || i % 5 == 0) {
-			e->takeDamage((p->getATK() * p->getLvl()) + (p->getBoostATK() * p->getLvl()) - 2);
+			e->takeDamage((p->getATK() * p->getLvl()) + (p->getBoostATK() * p->getLvl()) + 2);
 			return 0;
 		};
 		return -1;

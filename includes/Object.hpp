@@ -24,7 +24,7 @@ public:
 	void setPos(sf::Vector2f pos) { _Sprite.setPosition(pos); };
 	sf::Vector2f getPos() { return _Sprite.getPosition(); };
 	void setDisplay(bool disp) { _display = disp; };
-	sf::IntRect rect_transform(int left, int width) {
+	void rect_transform(int left, int width) {
 		sf::IntRect r = _Sprite.getTextureRect();
 		r.left = left;
 		r.width = width;

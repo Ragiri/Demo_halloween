@@ -36,9 +36,10 @@ class Fight {
 			for(auto &e: _ennemy)
 				if (e->getPV() > 0)
 					status = BATTLE;
+			std::cout << status << std::endl;
 			return status;
 		}
-		int ennemyTurn() {
+		void ennemyTurn() {
 			for (auto &e: _ennemy) {
 				if (e->getPV() > 0) {
 					int i = rand() % 50;
@@ -119,11 +120,11 @@ class Fight {
 			box.setOutlineThickness(5);
 			Window->draw(box);
 			for (int i = 0; i != _player.size(); ++i) {
-				_player.at(i)->displayPlayerBox(Window, {20 + ( 300 * i ), 750});
+				_player.at(i)->displayPlayerBox(Window, {(float)(20 + ( 300 * i )), (float)750});
 			}
 			_player.at(_id_player_turn)->displayActionBox(Window);
 			for(int i = 0; i != _ennemy.size(); ++i) {
-				_ennemy.at(i)->setPosition({600 + (500 * i), 300});
+				_ennemy.at(i)->setPosition({(float)(600 + (500 * i)), (float)300});
 				_ennemy.at(i)->setScale({8.f, 6.f});
 				_ennemy.at(i)->displayEnnemy(Window);
 			}

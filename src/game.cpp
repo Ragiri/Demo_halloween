@@ -83,38 +83,24 @@ void Game::gameCollider() {
 	}
 }
 
+void Game::move(int top, float x, float y) {
+	_players.at(1)->setPosition({_players.at(1)->getPosition().x + x, _players.at(1)->getPosition().y + y});
+	_players.at(1)->getSprite()->getTextureRect().left < 32 ? 
+	_players.at(1)->getSprite()->setTextureRect({_players.at(1)->getSprite()->getTextureRect().left + 16, top, 16, 16})
+	: _players.at(1)->getSprite()->setTextureRect({0, top, 16, 16});
+	_view.setCenter(_players.at(1)->getPosition());
+	gameCollider();	
+}
+
 void Game::moveEvent(sf::Event event) {
-	if (event.type == sf::Event::KeyPressed) {
-		if (event.key.code == sf::Keyboard::Left && checkCollider({_players.at(1)->getPosition().x - 2, _players.at(1)->getPosition().y})) {
-			_players.at(1)->setPosition({_players.at(1)->getPosition().x - 2, _players.at(1)->getPosition().y});
-			_players.at(1)->getSprite()->getTextureRect().left < 32 ? 
-			_players.at(1)->getSprite()->setTextureRect({_players.at(1)->getSprite()->getTextureRect().left + 16, 16, 16, 16})
-			: _players.at(1)->getSprite()->setTextureRect({0, 16, 16, 16});
-			_view.setCenter(_players.at(1)->getPosition());
-			gameCollider();
-		} if (event.key.code == sf::Keyboard::Right && checkCollider({_players.at(1)->getPosition().x + 2, _players.at(1)->getPosition().y})) {
-			_players.at(1)->setPosition({_players.at(1)->getPosition().x + 2, _players.at(1)->getPosition().y});
-			_players.at(1)->getSprite()->getTextureRect().left < 32 ? 
-			_players.at(1)->getSprite()->setTextureRect({_players.at(1)->getSprite()->getTextureRect().left + 16, 32, 16, 16})
-			: _players.at(1)->getSprite()->setTextureRect({0, 32, 16, 16});
-			_view.setCenter(_players.at(1)->getPosition());
-			gameCollider();
-		} if (event.key.code == sf::Keyboard::Up && checkCollider({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y - 2})) {
-			_players.at(1)->setPosition({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y - 2});
-			_players.at(1)->getSprite()->getTextureRect().left < 32 ? 
-			_players.at(1)->getSprite()->setTextureRect({_players.at(1)->getSprite()->getTextureRect().left + 16, 48, 16, 16})
-			: _players.at(1)->getSprite()->setTextureRect({0, 48, 16, 16});
-			_view.setCenter(_players.at(1)->getPosition());
-			gameCollider();
-		} if (event.key.code == sf::Keyboard::Down && checkCollider({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y + 2})) {
-			_players.at(1)->setPosition({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y + 2});
-			_players.at(1)->getSprite()->getTextureRect().left < 32 ? 
-			_players.at(1)->getSprite()->setTextureRect({_players.at(1)->getSprite()->getTextureRect().left + 16, 0, 16, 16})
-			: _players.at(1)->getSprite()->setTextureRect({0, 0, 16, 16});
-			_view.setCenter(_players.at(1)->getPosition());
-			gameCollider();
-		}
-	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && checkCollider({_players.at(1)->getPosition().x - (float)0.5, _players.at(1)->getPosition().y}))
+		move(16, -0.5, 0);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && checkCollider({_players.at(1)->getPosition().x + (float)0.5, _players.at(1)->getPosition().y}))
+		move(32, 0.5, 0);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && checkCollider({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y - (float)0.5}))
+		move(48, 0, -0.5);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && checkCollider({_players.at(1)->getPosition().x, _players.at(1)->getPosition().y + (float)0.5}))
+		move(0, 0, 0.5);
 };
 
 void Game::add_layer(File &tmp, int width, int height) {
@@ -127,7 +113,7 @@ void Game::add_layer(File &tmp, int width, int height) {
         pos.y = height * line;
         for(auto &x: y) {
             pos.x = width * tile;
-            std::cout << "pos.x " << pos.x << " pos.y " << pos.y << std::endl;
+            //std::cout << "pos.x " << pos.x << " pos.y " << pos.y << std::endl;
             add_obj(create_obj(x, pos));
             if (s_container.find(x) == s_container.end()) {
                 s_container[x] = Sprite{};
@@ -185,16 +171,19 @@ EVENT Game::event(void) {
 			return EVENT::QUIT;
 		if (_scene == MENU)
 			_scene = _menu.menuEvents(_event, &_sound);
-		if (_scene == MAP)
-			this->moveEvent(_event);
+
 		if (_scene == FIGHT) {
 			FIGHT_STATUS f = _fight.fight(_event,  _window.get()->getWindow(), &_sound);
 			if (f == WIN) {
 				_fight.reward();
 				_scene = MAP;
-			} if (f == LOST)
+			} if (f == LOST) {
+				_scene = MAP;
 				return EVENT::QUIT;
+			}
 		}
     }
+	if (_scene == MAP)
+		this->moveEvent(_event);
     return EVENT::NONE;
 }

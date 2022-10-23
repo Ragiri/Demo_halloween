@@ -8,6 +8,7 @@ class Window {
 public:
     Window(std::string name = "window") {
         _window.create(sf::VideoMode(1920, 1080), sf::String(name), sf::Style::Fullscreen);
+		_window.setKeyRepeatEnabled(false);
     };
     ~Window() {
         _window.close();

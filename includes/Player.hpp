@@ -78,7 +78,7 @@ void displayPlayerBox(sf::RenderWindow *Window, sf::Vector2f pos) {
 void displayActionBox(sf::RenderWindow *Window) {
 	for (int i = 0; i != _action_name.size(); i++) {
 		sf::RectangleShape rectangle(sf::Vector2f(200, 100));
-		rectangle.setPosition({( 200 * i ), 550});
+		rectangle.setPosition({(float)( 200 * i ), (float)550});
 		rectangle.setFillColor(sf::Color::White);
 		rectangle.setOutlineThickness(5);
 		rectangle.setOutlineColor(sf::Color::Black);
